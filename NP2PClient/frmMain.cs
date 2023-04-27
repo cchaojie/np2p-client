@@ -8,7 +8,10 @@ namespace NP2PClient
 {
     public partial class frmMain : Form
     {
+        string serverAddr = "http://119.91.202.207:10081";
         bool runNP2P = true;
+        bool applyOpenPose = true;
+        bool applyHed = true;
         public frmMain()
         {
             InitializeComponent();
@@ -39,7 +42,7 @@ namespace NP2PClient
             {
                 using (var webClient = new WebClient())
                 {
-                    var readmeStr = webClient.DownloadString("http://119.91.202.207:10081/np2p/readme.txt");
+                    var readmeStr = webClient.DownloadString(serverAddr+"/np2p/readme.txt");
 
                     this.Invoke(new Action(() => { tbReadme.Text = readmeStr; }));
                 }
@@ -56,7 +59,7 @@ namespace NP2PClient
             {
                 using (var httpClient = new HttpClient())
                 {
-                    using (var request = new HttpRequestMessage(new HttpMethod("POST"), "http://119.91.202.207:10081/api/NP2P/NewFrame"))
+                    using (var request = new HttpRequestMessage(new HttpMethod("POST"), serverAddr + "/api/NP2P/NewFrame"))
                     {
                         request.Headers.TryAddWithoutValidation("accept", "application/json");
                         request.Content = new StringContent("");
@@ -142,7 +145,10 @@ namespace NP2PClient
 "
 );
                     JArray arrControlNet = objReq["alwayson_scripts"]["ControlNet"]["args"] as JArray;
-                    arrControlNet.Add(JObject.Parse(@"
+
+                    if (applyOpenPose)
+                    {
+                        arrControlNet.Add(JObject.Parse(@"
 {
     'enabled': true,
     'module': 'openpose_full',
@@ -161,6 +167,31 @@ namespace NP2PClient
     'guidance_end': 1,
     'guessmode': false
 }"));
+                    }
+
+                    if (applyHed)
+                    {
+                        arrControlNet.Add(JObject.Parse(@"
+{
+    'enabled': true,
+    'module': 'scribble_hed',
+    'input_image': '" + frame.FrameImage + @"',
+    'mask': null,
+    'model': 'control_v11p_sd15_scribble [d4ba51ff]',
+    'weight': 1,
+    'invert_image': false,
+    'resize_mode': 'Inner Fit (Scale to Fit)',
+    'rgbbgr_mode': false,
+    'lowvram': false,
+    'processor_res': 512,
+    'threshold_a': 64,
+    'threshold_b': 64,
+    'guidance_start': 0,
+    'guidance_end': 1,
+    'guessmode': false
+}"));
+                    }
+
                     requestFrame.Content = new StringContent(objReq.ToString());
                     requestFrame.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
 
@@ -180,7 +211,7 @@ namespace NP2PClient
         {
             using (var httpClient = new HttpClient())
             {
-                using (var request = new HttpRequestMessage(new HttpMethod("POST"), "http://119.91.202.207:10081/api/NP2P/UploadImage64"))
+                using (var request = new HttpRequestMessage(new HttpMethod("POST"), serverAddr + "/api/NP2P/UploadImage64"))
                 {
                     request.Headers.TryAddWithoutValidation("accept", "application/json");
                     JObject objRequest = new JObject();
