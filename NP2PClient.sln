@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NP2PClient", "NP2PClient\NP2PClient.csproj", "{259C5FE0-7629-4F73-B8A0-11AFBDEB9F75}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{259C5FE0-7629-4F73-B8A0-11AFBDEB9F75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{259C5FE0-7629-4F73-B8A0-11AFBDEB9F75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{259C5FE0-7629-4F73-B8A0-11AFBDEB9F75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{259C5FE0-7629-4F73-B8A0-11AFBDEB9F75}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E3785624-AE4A-4C03-BE71-2CDDD56EA0EC}
+	EndGlobalSection
+EndGlobal
